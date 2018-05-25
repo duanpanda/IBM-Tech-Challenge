@@ -1,0 +1,7 @@
+namespace com.airlineticketsystem.flight
+
+
+asset Flight identified by flightId {
+  o String      flightId 
+
+}

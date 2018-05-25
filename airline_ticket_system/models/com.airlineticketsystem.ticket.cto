@@ -1,0 +1,32 @@
+namespace com.airlineticketsystem.ticket
+
+import com.airlineticketsystem.participant.* 
+
+
+enum ClassType {
+  o   Economy
+  o   FirstClass
+  o   BusinessClass
+}
+
+asset Ticket identified by assetId {
+  o String assetId
+  o String seat
+  o ClassType classType default ="Economy" 
+  o String  arivalTime
+  o String departLoc
+  o String arrivalLoc
+  --> AirTicketParticipant owner
+  o String value
+}
+
+transaction TicketTransaction {
+  --> Ticket asset
+  o String newValue
+}
+
+event TicketEvent {
+  --> Ticket asset
+  o String oldValue
+  o String newValue
+}
