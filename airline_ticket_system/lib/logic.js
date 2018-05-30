@@ -1,43 +1,27 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 'use strict';
-/**
- * Write your transction processor functions here
- */
 
 /**
- * Sample transaction
- * @param {com.airlineticketsystem.SampleTransaction} sampleTransaction
+ * Ticket transaction
+ * @param {com.airlineticketsystem.TicketTransaction} ticketData
  * @transaction
  */
-async function TicketTransaction(tx) {
-    // Save the old value of the asset.
-    const oldValue = tx.asset.value;
-
-    // Update the asset with the new value.
-    tx.asset.value = tx.newValue;
-
-    // Get the asset registry for the asset.
-    const assetRegistry = await getAssetRegistry('com.airlineticketsystem.Ticket');
-    // Update the asset in the asset registry.
-    await assetRegistry.update(tx.asset);
-
-    // Emit an event for the modified asset.
-    let event = getFactory().newEvent('com.airlineticketsystem', 'TicketEvent');
-    event.asset = tx.asset;
-    event.oldValue = oldValue;
-    event.newValue = tx.newValue;
-    emit(event);
+async function TicketTransaction(ticketData) {
+    var ticketRegistry={}
+    return getAssetRegistry('com.airlineticketsystem.ticket').then(function(registry){
+        ticketRegistry = registry
+        return ticketRegistry.get(ticketData.ticketId);
+    }).then(function(ticket){
+        if(!ticket) throw new Error("Ticket : "+ticketData.ticketId," Not Found!!!");
+        var   factory = getFactory();
+        var   relationship = factory.newRelationship('com.airlineticketsystem.participant','ACMEParticipant',ticketData.ticketId);
+        ticket.owner= relationship;
+        return ticketRegistry.update(flight);
+    }).then(function(){
+        // Successful update
+        var event = getFactory().newEvent('com.airlineticketsystem.ticket', 'TicketEvent');
+        event.ticketId = ticketData.ticketId;
+        emit(event);
+    }).catch(function(error){
+        throw new Error(error);
+    });
 }

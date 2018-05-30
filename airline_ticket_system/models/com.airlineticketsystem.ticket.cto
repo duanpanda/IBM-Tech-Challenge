@@ -9,8 +9,8 @@ enum ClassType {
   o   BusinessClass
 }
 
-asset Ticket identified by assetId {
-  o String assetId
+asset Ticket identified by ticketId {
+  o String ticketId
   o String seat
   o ClassType classType default ="Economy" 
   o String  arivalTime
