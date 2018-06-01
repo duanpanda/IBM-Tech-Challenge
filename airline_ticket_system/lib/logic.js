@@ -2,10 +2,10 @@
 
 /**
  * Ticket transaction
- * @param {com.airlineticketsystem.TicketTransaction} ticketData
+ * @param {com.airlineticketsystem.ticket.TicketTransaction} ticketData
  * @transaction
  */
-async function TicketTransaction(ticketData) {
+async function createTicketTransaction(ticketData) {
     var ticketRegistry={}
     return getAssetRegistry('com.airlineticketsystem.ticket').then(function(registry){
         ticketRegistry = registry

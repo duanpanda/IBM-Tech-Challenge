@@ -19,7 +19,7 @@ rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
     participant: "com.airlineticketsystem.participant.*"
     operation: READ
-    resource: "com.airlineticketsystem.*"
+    resource: "com.airlineticketsystem.**"
     action: ALLOW
 }
 
@@ -27,7 +27,7 @@ rule EverybodyCanSubmitTransactions {
     description: "Allow all participants to submit transactions"
     participant: "com.airlineticketsystem.participant.*"
     operation: CREATE
-    resource: "com.airlineticketsystem.*"
+    resource: "com.airlineticketsystem.**"
     action: ALLOW
 }
 
